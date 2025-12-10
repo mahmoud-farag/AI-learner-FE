@@ -23,6 +23,7 @@ textChunkerUtils.chunkText = (params = {}) => {
   const cleanedText = text
     .replace(/\r\n/g, '\n')
     .replace(/\t/g, ' ')
+    .replace(/(?:\.\s*){3,}/g, ' ') // Remove sequences of 3+ dots (leaders)
     .replace(/\s+/g, ' ')
     .replace(/\n /g, '\n')
     .trim();
@@ -40,7 +41,7 @@ textChunkerUtils.chunkText = (params = {}) => {
     const paragraphWords = paragraph.trim().split(/\s+/);
 
     const paragraphWordCount = paragraphWords.length;
-  
+
     // If single paragraph exceeds chunk size, split it by words
     if (paragraphWordCount > chunkSize) {
 
@@ -51,7 +52,7 @@ textChunkerUtils.chunkText = (params = {}) => {
           chunkIndex: chunkIndex++,
           pageNumber: 0
         });
-  
+
         currentChunk = [];
         currentWordCount = 0;
       }
@@ -114,11 +115,11 @@ textChunkerUtils.chunkText = (params = {}) => {
   if (chunks.length === 0 && cleanedText.length > 0) {
 
     const allWords = cleanedText.split(/\s+/);
-    
+
     for (let i = 0; i < allWords.length; i += (chunkSize - overlap)) {
-   
+
       const chunkWords = allWords.slice(i, i + chunkSize);
-   
+
       chunks.push({
         content: chunkWords.join(' '),
         chunkIndex: chunkIndex++,
@@ -133,15 +134,15 @@ textChunkerUtils.chunkText = (params = {}) => {
 
   return chunks;
 
-  
+
 };
 
 
 textChunkerUtils.findRelevantChunks = (chunks, query, maxChunks = 3) => {
 
-  if (!chunks || chunks.length === 0 || !query) 
+  if (!chunks || chunks.length === 0 || !query)
     return [];
-  
+
 
   // Common stop words to exclude
   const stopwords = new Set([
@@ -169,30 +170,30 @@ textChunkerUtils.findRelevantChunks = (chunks, query, maxChunks = 3) => {
     const content = chunk.content.toLowerCase();
     const contentWords = content.split(/\s+/).length;
     let score = 0;
-  
+
     // Score each query word
     for (const word of queryWords) {
       // Exact word match (higher score)
       const exactMatches = (content.match(new RegExp(`\\b${word}\\b`, 'g')) || []).length;
       score += exactMatches * 3;
-  
+
       // Partial match (lower score)
       const partialMatches = (content.match(new RegExp(word, 'g')) || []).length;
       score += Math.max(0, partialMatches - exactMatches) * 1.5;
     }
-  
+
     // Bonus: Multiple query words found
     const uniqueWordsFound = queryWords.filter(word =>
       content.includes(word)
     ).length;
-  
+
     if (uniqueWordsFound > 1) {
       score += uniqueWordsFound * 2;
     }
-  
+
     // Normalize by content length
     const normalizedScore = score / Math.sqrt(contentWords);
-  
+
     // Small bonus for earlier chunks
     const positionBonus = 1 - (index / chunks.length) * 0.1;
 

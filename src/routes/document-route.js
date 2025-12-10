@@ -14,8 +14,7 @@ const router = express.Router();
 // protected routes
 router.post('/upload-pdf', checkAuth, uploadFiles({ allowedMimeTypes: ['application/pdf'] }), documentController.uploadDocument);
 router.get('/', checkAuth, documentController.getDocuments);
-router.get('/:id', checkAuth, documentController.getDocument);
-router.delete('/:id', checkAuth, documentController.deleteDocument);
-router.put('/:id', checkAuth, documentController.updateDocument);
+router.get('/:documentId', checkAuth, documentController.getDocument);
+router.delete('/:documentId', checkAuth, documentController.deleteDocument);
 
 export default router;

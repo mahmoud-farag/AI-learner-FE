@@ -41,7 +41,7 @@ const DocumentSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['processing', 'ready', 'failed'],
+    enum: ['processing', 'ready', 'failed', 'deleted'],
     default: 'processing',
   },
   

@@ -1,5 +1,4 @@
 import fs from 'fs/promises';
-// import './domMatrixPolyfill.js';
 import { PDFParse } from 'pdf-parse';
 import customErrors from './customErrors.js';
 
@@ -16,7 +15,8 @@ const parsePdf = async (params = {}) => {
     // const dataBuffer = await fs.readFile(filePath);
 
     // pdf-parse expects a Buffer or Uint8Array
-    const data = await PDFParse(fileBuffer);
+    const parser = new PDFParse(new Uint8Array(fileBuffer));
+    const data = await parser.getText();
 
     return {
       text: data.text,

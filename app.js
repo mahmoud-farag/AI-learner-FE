@@ -20,7 +20,10 @@ app.use(cors({
   origin: "*",      // DANGEROUS for Prod: Allows ANY website to call your API
   methods: ['GET', 'POST', 'DELETE', 'PATCH'],
   credentials: true // Allow cookies/headers to be passed back and forth
-})); app.use(express.json());
+})); 
+
+
+app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoute);

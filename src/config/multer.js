@@ -5,7 +5,7 @@ const { BadRequestError, InternalServerError } = customErrors;
 
 const uploadFiles = (params = {}) => {
 
-  const { allowedMimeTypes = [], maxFileSize = 1024 * 1024 * 5, mode = 'single', fieldName = 'file', maxCount = 5 } = params;
+  const { allowedMimeTypes = [], maxFileSize = 10485760, mode = 'single', fieldName = 'file', maxCount = 5 } = params;
   
   if (!allowedMimeTypes?.length) 
     throw new InternalServerError('Allowed MimeTypes can not be empty');

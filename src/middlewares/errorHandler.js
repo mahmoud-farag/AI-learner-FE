@@ -23,9 +23,6 @@ const errorHandler = (error, req, res, next) => {
       
         return res.status(STATUS_CODES.BAD_REQUEST).json({ success: false, message: 'File missing or invalid field name' });
       
-      } else if (error.code === 'MISSING_FIELD_NAME') {
-        return res.status(STATUS_CODES.BAD_REQUEST).json({ success: false, message: 'You have to provide the file to proceed' });
-
       } 
 
       return res.status(STATUS_CODES.BAD_REQUEST).json({ success: false, message: error.message });
