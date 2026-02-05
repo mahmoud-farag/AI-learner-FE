@@ -89,40 +89,29 @@ export default function RegisterPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-slate-100 to-slate-200 py-8 sm:py-12">
-
       <div className="relative w-full max-w-md px-4 sm:px-6">
         <div className="bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl p-6 sm:p-8 shadow-lg">
           {/* Header */}
           <div className="text-center mb-8 sm:mb-10">
             <div className="inline-flex items-center justify-center size-12 sm:size-14 rounded-2xl bg-linear-to-br from-violet-400 to-purple-500 shadow-lg shadow-violet-100 mb-4 sm:mb-6">
-              <BrainCircuit
-                className="size-6 sm:size-7 text-white"
-                strokeWidth={2}
-              />
+              <BrainCircuit className="size-6 sm:size-7 text-white" strokeWidth={2} />
             </div>
 
-            <h1 className="text-xl md:text-3xl font-medium text-slate-900 tracking-tight mb-2">
-              Create An Account
-            </h1>
+            <h1 className="text-xl md:text-3xl font-medium text-slate-900 tracking-tight mb-2">Create An Account</h1>
 
-            <p className="text-slate-500 text-sm md:text-lg">
-              Now you can start your awesome learning journey
-            </p>
+            <p className="text-slate-500 text-sm md:text-lg">Now you can start your awesome learning journey</p>
           </div>
 
           {/* Form */}
           <div className="space-y-5">
             {/* User Name */}
             <div className="space-y-2">
-              <label className="block text-xs md:text-sm font-semibold text-slate-700 uppercase tracking-wide">
-                User Name
-              </label>
+              <label className="block text-xs md:text-sm font-semibold text-slate-700 uppercase tracking-wide">User Name</label>
               <div className="relative group">
                 <div
-                  className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${focusedField === 'username'
-                    ? 'text-violet-500'
-                    : 'text-slate-400'
-                    }`}
+                  className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${
+                    focusedField === 'username' ? 'text-violet-500' : 'text-slate-400'
+                  }`}
                 >
                   <User className="h-5 w-5" strokeWidth={2} />
                 </div>
@@ -139,15 +128,13 @@ export default function RegisterPage() {
             </div>
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-xs md:text-sm font-semibold text-slate-700 uppercase tracking-wide">
-                Email
-              </label>
+              <label className="block text-xs md:text-sm font-semibold text-slate-700 uppercase tracking-wide">Email</label>
               <div className="relative group">
                 <div
-                  className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${focusedField === 'email'
-                    ? 'text-violet-500'
-                    : 'text-slate-400'
-                    }`}
+                  className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors duration-200 ${
+                    focusedField === 'email' ? 'text-violet-500' : 'text-slate-400'
+                  }`}
+                  medium
                 >
                   <Mail className="h-5 w-5" strokeWidth={2} />
                 </div>
@@ -158,22 +145,19 @@ export default function RegisterPage() {
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
                   placeholder="you@example.com"
-                  className="w-full h-10 sm:h-12 pl-12 pr-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm md:text-base font-medium transition-all duration-200 focus:outline-none focus:border-violet-500 focus:bg-white focus:shadow-lg focus:shadow-violet-500/10"
+                  className="w-full h-10 sm:h-12 pl-12 pr-4 border-2 border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder-slate-400 text-sm md:text-base font-light transition-all duration-200 focus:outline-none focus:border-violet-500 focus:bg-white focus:shadow-lg focus:shadow-violet-500/10"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs md:text-sm font-semibold text-slate-700 uppercase tracking-wide">
-                Password
-              </label>
+              <label className="block text-xs md:text-sm font-semibold text-slate-700 uppercase tracking-wide">Password</label>
 
               <div className="relative group">
                 <div
-                  className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ${focusedField === 'password'
-                    ? 'text-violet-500'
-                    : 'text-slate-400'
-                    }`}
+                  className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ${
+                    focusedField === 'password' ? 'text-violet-500' : 'text-slate-400'
+                  }`}
                 >
                   <Lock className="h-5 w-5" strokeWidth={2} />
                 </div>
@@ -214,10 +198,7 @@ export default function RegisterPage() {
                 ) : (
                   <>
                     Sign Up
-                    <ArrowRight
-                      className="w-4 h-4 group:hover:translate-x-1 transition-transform duration-200"
-                      strokeWidth={2.5}
-                    />
+                    <ArrowRight className="w-4 h-4 group:hover:translate-x-1 transition-transform duration-200" strokeWidth={2.5} />
                   </>
                 )}
               </span>
@@ -227,10 +208,7 @@ export default function RegisterPage() {
 
             <div className="flex flex-wrap items-center justify-center gap-1 text-sm text-slate-600">
               <span>Already Have An Account?</span>
-              <Link
-                to="/login"
-                className="font-semibold text-violet-600 hover:text-violet-700 transition-colors duration-200"
-              >
+              <Link to="/login" className="font-semibold text-violet-600 hover:text-violet-700 transition-colors duration-200">
                 Sign In
               </Link>
             </div>
@@ -251,9 +229,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Subtle footer text */}
-        <p className="text-center text-xs md:text-sm text-slate-400 mt-6 px-4">
-          By continuing, you agree to our Terms & Privacy Policy
-        </p>
+        <p className="text-center text-xs md:text-sm text-slate-400 mt-6 px-4">By continuing, you agree to our Terms & Privacy Policy</p>
       </div>
     </div>
   );
