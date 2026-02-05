@@ -50,14 +50,14 @@ interface IDocumentService {
 
 class DocumentService implements IDocumentService {
 
-    private errorHandler(error: unknown, defaultMessage: string = 'Unknown Error occurred'): never {
+    private errorHandler = (error: unknown, defaultMessage: string = 'Unknown Error occurred'): never => {
         if (isAxiosError(error)) {
             throw error.response?.data ?? { message: defaultMessage };
         }
         throw new Error(defaultMessage);
     }
 
-    async uploadDocument(params: IUploadDocumentParams, options: options = {}): Promise<IResponse<any>> {
+    uploadDocument = async (params: IUploadDocumentParams, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { formData } = params;
 
@@ -70,11 +70,11 @@ class DocumentService implements IDocumentService {
 
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error while uploading new pdf file');
+            return this.errorHandler(error, 'Error while uploading new pdf file');
         }
     }
 
-    async initUpload(params: IInitUploadParams): Promise<IResponse<any>> {
+    initUpload = async (params: IInitUploadParams): Promise<IResponse<any>> => {
         try {
             const { title, fileName, fileSize, mimeType } = params;
             const response = await axiosClient.post(DOCUMENTS_PATHS.INIT_UPLOAD, {
@@ -86,11 +86,11 @@ class DocumentService implements IDocumentService {
 
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error initializing upload');
+            return this.errorHandler(error, 'Error initializing upload');
         }
     }
 
-    async uploadToS3({ uploadUrl, file }: IUploadToS3Params, options: options = {}): Promise<any> {
+    uploadToS3 = async ({ uploadUrl, file }: IUploadToS3Params, options: options = {}): Promise<any> => {
         try {
             // ! Use axios without the default client to avoid Auth headers interfering with S3
             const response = await axiosClient.put(uploadUrl, file, {
@@ -117,16 +117,16 @@ class DocumentService implements IDocumentService {
         }
     }
 
-    async confirmUpload(documentId: string): Promise<IResponse<any>> {
+    confirmUpload = async (documentId: string): Promise<IResponse<any>> => {
         try {
             const response = await axiosClient.patch(DOCUMENTS_PATHS.CONFIRM_UPLOAD(documentId));
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error confirming upload');
+            return this.errorHandler(error, 'Error confirming upload');
         }
     }
 
-    async getAllDocuments(params: IGetDocumentsParams = {}, options: options = {}): Promise<IResponse<any>> {
+    getAllDocuments = async (params: IGetDocumentsParams = {}, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { offset, limit } = params;
 
@@ -135,11 +135,11 @@ class DocumentService implements IDocumentService {
             return response.data;
 
         } catch (error) {
-            this.errorHandler(error, 'Error while fetching documents');
+            return this.errorHandler(error, 'Error while fetching documents');
         }
     }
 
-    async getDocument(params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> {
+    getDocument = async (params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { documentId } = params;
 
@@ -148,11 +148,11 @@ class DocumentService implements IDocumentService {
             return response.data;
 
         } catch (error) {
-            this.errorHandler(error, 'Error while get the document');
+            return this.errorHandler(error, 'Error while get the document');
         }
     }
 
-    async updateDocument(params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> {
+    updateDocument = async (params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
 
             const { documentId } = params;
@@ -162,11 +162,11 @@ class DocumentService implements IDocumentService {
             return response.data;
 
         } catch (error) {
-            this.errorHandler(error, 'Error while updating the document');
+            return this.errorHandler(error, 'Error while updating the document');
         }
     }
 
-    async deleteDocument(params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> {
+    deleteDocument = async (params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
 
             const { documentId } = params;
@@ -176,7 +176,7 @@ class DocumentService implements IDocumentService {
             return response.data;
 
         } catch (error) {
-            this.errorHandler(error, 'Error while deleting the document');
+            return this.errorHandler(error, 'Error while deleting the document');
         }
     }
 }

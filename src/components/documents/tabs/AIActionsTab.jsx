@@ -99,10 +99,10 @@ export default function AIActionsTab() {
 
             <button
               onClick={handleGenerateSummary}
-              disabled={isLoading}
+              disabled={summary && isLoading}
               className="min-[800px]:px-7 bg-linear-to-br py-1 from-violet-400 to-violet-700 rounded-2xl shadow-md text-white cursor-pointer hover:shadow-xl active:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading && activeModal === null ? 'Summarizing...' : 'Summarize'}
+              {isLoading && activeModal === null && summary ? 'Summarizing...' : 'Summarize'}
             </button>
           </div>
           <p className="text-base text-slate-400">Get a concise summary of the entire document</p>
@@ -124,11 +124,11 @@ export default function AIActionsTab() {
 
           <div className="flex flex-col sm:flex-row gap-4 mt-5">
             <input
-              className="border border-slate-300 shadow-md flex-1 rounded-xl px-2 sm:px-4 focus:outline-violet-400 text-sm md:text-xl py-2 sm:py-3 placeholder:text-xs placeholder:sm:text-base"
+              className="border border-slate-300 shadow-md flex-1 rounded-xl px-2 sm:px-4 focus:outline-violet-400 text-sm md:text-lg py-2 sm:py-3 placeholder:text-xs placeholder:sm:text-base font-light"
               placeholder="Anything related to the document"
               value={concept}
               onChange={(e) => setConcept(e.target.value)}
-              disabled={isLoading}
+              disabled={concept && isLoading}
             />
             <button
               onClick={handleExplainConcept}

@@ -23,6 +23,8 @@ export default function ChatTab() {
     refetchData: getHistories,
   } = useGetData({
     initialState: [],
+    // serviceFunc: aiService.getChatHistory,
+    // serviceFunc: aiService.getChatHistory.bind(aiService),
     serviceFunc: aiService.getChatHistory,
     payload,
     showSuccessToast: false,
@@ -94,9 +96,7 @@ export default function ChatTab() {
     <div className="flex flex-col">
       {/* header */}
       <div className="shrink-0 p-2 sm:p-3">
-        <p className="text-base sm:text-xl tracking-tight">
-          You can chat with AI about your document contents
-        </p>
+        <p className="text-base sm:text-xl tracking-tight">You can chat with AI about your document contents</p>
       </div>
 
       {/* body - scrollable messages area */}
@@ -122,9 +122,7 @@ export default function ChatTab() {
 
             <div className=" text-center">
               <p className="font-semibold">Start A conversation</p>
-              <p className="tracking-wide text-slate-400">
-                Ask me anything about the document
-              </p>
+              <p className="tracking-wide text-slate-400">Ask me anything about the document</p>
             </div>
           </div>
         )}
@@ -138,7 +136,7 @@ export default function ChatTab() {
             value={question}
             disabled={isPrepareAnswer}
             onChange={(e) => setQuestion(e.target.value)}
-            className=" min-h-[50px] sm:min-h-15 py-3 bg-white text-slate-800 shadow-md focus:shadow-lg focus:shadow-violet-200 placeholder:text-sm sm:placeholder:text-base placeholder:text-slate-400 px-4 rounded-xl focus:outline-violet-400 transition-all duration-300 focus:border-violet-300 flex-1 text-base"
+            className=" min-h-[50px] sm:min-h-15 py-3 bg-white text-slate-800 shadow-md focus:shadow-lg focus:shadow-violet-200 placeholder:text-sm sm:placeholder:text-base placeholder:text-slate-400 px-4 rounded-xl focus:outline-violet-400 transition-all duration-300 focus:border-violet-300 flex-1 text-base font-light"
             placeholder="Ask any question related to the document"
           />
           <button
