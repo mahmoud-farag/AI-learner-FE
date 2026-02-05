@@ -13,7 +13,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useGetData } from '../../../context/customHooks';
 import { Loader, ConfirmationModal, BaseModal } from '../../common';
 import toastService from '../../../utils/toasterUtils';
-
+ 
 export default function QuizzesTab() {
   //* States
   const { id: documentId } = useParams();

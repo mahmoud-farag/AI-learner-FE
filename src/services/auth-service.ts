@@ -41,7 +41,7 @@ interface IAuthService {
 
 class AuthService implements IAuthService {
 
-  private errorHandler(error: unknown, defaultMessage: string = 'Unknown Error occurred'): never {
+  private errorHandler = (error: unknown, defaultMessage: string = 'Unknown Error occurred'): never => {
 
     if (isAxiosError(error)) {
       throw error.response?.data ?? { message: defaultMessage };
@@ -51,7 +51,7 @@ class AuthService implements IAuthService {
   }
 
 
-  async login(params: ILoginParams, options?: options): Promise<IResponse<{ user: any, accessToken: string }>> {
+  login = async (params: ILoginParams, options?: options): Promise<IResponse<{ user: any, accessToken: string }>> => {
     try {
       // const { email, password } = params;
 
@@ -62,11 +62,11 @@ class AuthService implements IAuthService {
       return result.data;
 
     } catch (error) {
-      this.errorHandler(error);
+      return this.errorHandler(error);
     }
   };
 
-  async register(params: IRegisterParams, options?: options): Promise<IResponse> {
+  register = async (params: IRegisterParams, options?: options): Promise<IResponse> => {
     try {
       // const { email, password, username } = params;
 
@@ -77,12 +77,12 @@ class AuthService implements IAuthService {
       return result.data;
 
     } catch (error) {
-      this.errorHandler(error);
+      return this.errorHandler(error);
 
     }
   };
 
-  async getUserProfile(): Promise<IResponse<{ user: any }>> {
+  getUserProfile = async (): Promise<IResponse<{ user: any }>> => {
     try {
 
       const result = await axiosClient.get(AUTH_PATHS.GET_PROFILE);
@@ -91,7 +91,7 @@ class AuthService implements IAuthService {
 
     } catch (error) {
 
-      this.errorHandler(error);
+      return this.errorHandler(error);
     }
   }
 
@@ -99,7 +99,7 @@ class AuthService implements IAuthService {
 
   // }
 
-  async changePassword(params: IChangePasswordParams, options?: options): Promise<IResponse> {
+  changePassword = async (params: IChangePasswordParams, options?: options): Promise<IResponse> => {
     try {
 
       const result = await axiosClient.patch(AUTH_PATHS.CHANGE_PASSWORD, params);
@@ -108,7 +108,7 @@ class AuthService implements IAuthService {
 
     } catch (error) {
 
-      this.errorHandler(error);
+      return this.errorHandler(error);
     }
   }
 

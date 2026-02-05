@@ -58,3 +58,54 @@ export interface IToastService {
     warning: (message: string, options?: ToastOptions) => void;
 };
 
+
+// start FlashCards interfaces
+
+export interface IGetFlashcardsParams {
+  offset?: number;
+  limit?: number;
+}
+
+export interface IDocumentIdParam {
+  documentId: string;
+}
+
+export interface ICardIdParam {
+  cardId: string;
+}
+
+export interface IFlashCardSetIdParam {
+  flashCardSetId: string;
+}
+
+//end flashcard interfaces
+
+
+// start quizzes service interface
+export interface IGetQuizzesParams {
+  documentId: string;
+  offset: number;
+  limit: number;
+};
+
+export interface IGetQuizParams {
+  quizId: string;
+};
+
+
+export interface IGetQuizResultsParams {
+  quizId: string;
+};
+
+export interface IDeleteQuizParams {
+  quizId: string;
+};
+
+export interface ISubmitQuizParams {
+  answers: any[];
+  quizId: string;
+};
+
+// End quizzes service interface
+
+

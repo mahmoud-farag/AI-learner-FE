@@ -1,31 +1,16 @@
 import { isAxiosError } from 'axios';
 import axiosClient from '../utils/axiosClient';
-import { IResponse, options } from './interfaces';
+import { ICardIdParam, IDocumentIdParam, IFlashCardSetIdParam, IGetFlashcardsParams, IResponse, options } from './interfaces';
 
 const FLASHCARDS_PATHS = {
-    GET_ALL_FLASHCARD_SETS: '/api/flashcards',
-    GET_FLASHCARDS_FOR_DOC: (documentId: string) => `/api/flashcards/${documentId}`,
-    REVIEW_FLASHCARD: (cardId: string) => `/api/flashcards/${cardId}/review`,
-    TOGGLE_STAR: (cardId: string) => `/api/flashcards/${cardId}/star`,
-    DELETE_FLASHCARD_SET: (id: string) => `/api/flashcards/${id}`,
+  GET_ALL_FLASHCARD_SETS: '/api/flashcards',
+  GET_FLASHCARDS_FOR_DOC: (documentId: string) => `/api/flashcards/${documentId}`,
+  REVIEW_FLASHCARD: (cardId: string) => `/api/flashcards/${cardId}/review`,
+  TOGGLE_STAR: (cardId: string) => `/api/flashcards/${cardId}/star`,
+  DELETE_FLASHCARD_SET: (id: string) => `/api/flashcards/${id}`,
 };
 
-export interface IGetFlashcardsParams {
-    offset?: number;
-    limit?: number;
-}
 
-export interface IDocumentIdParam {
-    documentId: string;
-}
-
-export interface ICardIdParam {
-    cardId: string;
-}
-
-export interface IFlashCardSetIdParam {
-    flashCardSetId: string;
-}
 
 interface IFlashCardsService {
     getAllFlashcardSets: (params: IGetFlashcardsParams, options?: options) => Promise<IResponse<any>>;
@@ -37,60 +22,60 @@ interface IFlashCardsService {
 
 class FlashCardsService implements IFlashCardsService {
 
-    private errorHandler(error: unknown, defaultMessage: string = 'Unknown Error occurred'): never {
+    private errorHandler = (error: unknown, defaultMessage: string = 'Unknown Error occurred'): never => {
         if (isAxiosError(error)) {
             throw error.response?.data ?? { message: defaultMessage };
         }
         throw new Error(defaultMessage);
     }
 
-    async getAllFlashcardSets(params: IGetFlashcardsParams = {}, options: options = {}): Promise<IResponse<any>> {
+    getAllFlashcardSets = async (params: IGetFlashcardsParams = {}, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { offset, limit } = params;
             const response = await axiosClient.get(FLASHCARDS_PATHS.GET_ALL_FLASHCARD_SETS, { params: { offset, limit } });
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error while getting all flashcards');
+            return this.errorHandler(error, 'Error while getting all flashcards');
         }
     }
 
-    async getFlashcardForDocument(params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> {
+    getFlashcardForDocument = async (params: IDocumentIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { documentId } = params;
             const response = await axiosClient.get(FLASHCARDS_PATHS.GET_FLASHCARDS_FOR_DOC(documentId));
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error while fetching document flashcards');
+            return this.errorHandler(error, 'Error while fetching document flashcards');
         }
     }
 
-    async reviewFlashCard(params: ICardIdParam, options: options = {}): Promise<IResponse<any>> {
+    reviewFlashCard = async (params: ICardIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { cardId } = params;
             const response = await axiosClient.post(FLASHCARDS_PATHS.REVIEW_FLASHCARD(cardId));
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error while reviewing the flashcard');
+            return this.errorHandler(error, 'Error while reviewing the flashcard');
         }
     }
 
-    async deleteFlashCardSet(params: IFlashCardSetIdParam, options: options = {}): Promise<IResponse<any>> {
+    deleteFlashCardSet = async (params: IFlashCardSetIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { flashCardSetId } = params;
             const response = await axiosClient.delete(FLASHCARDS_PATHS.DELETE_FLASHCARD_SET(flashCardSetId));
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error while deleting flashcard set');
+            return this.errorHandler(error, 'Error while deleting flashcard set');
         }
     }
 
-    async toggleFlashCard(params: ICardIdParam, options: options = {}): Promise<IResponse<any>> {
+    toggleFlashCard = async (params: ICardIdParam, options: options = {}): Promise<IResponse<any>> => {
         try {
             const { cardId } = params;
             const response = await axiosClient.patch(FLASHCARDS_PATHS.TOGGLE_STAR(cardId));
             return response.data;
         } catch (error) {
-            this.errorHandler(error, 'Error while toggling the flashcard');
+            return this.errorHandler(error, 'Error while toggling the flashcard');
         }
     }
 }
