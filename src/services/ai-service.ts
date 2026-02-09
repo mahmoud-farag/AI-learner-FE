@@ -53,9 +53,9 @@ class AIService implements IAIService {
   /**
    * Centralized error handling for AI service methods
    */
-  private handleError = (error: unknown, defaultMessage: string): never => {
-    if (isAxiosError(error)) {
-      throw error.response?.data ?? { message: defaultMessage };
+  private errorHandler = (error: unknown, defaultMessage: string = 'Unknown Error occurred'): never => {
+    if (isAxiosError(error) && error.response?.data) {
+      throw error.response.data;
     }
     throw new Error(defaultMessage);
   }
@@ -68,7 +68,7 @@ class AIService implements IAIService {
       return response.data;
     } catch (error) {
       console.log(error);
-      return this.handleError(error, 'Error while generating the flashcards');
+      return this.errorHandler(error, 'Error while generating the flashcards');
     }
   }
 
@@ -79,7 +79,7 @@ class AIService implements IAIService {
       });
       return response.data;
     } catch (error) {
-      return this.handleError(error, 'Error while generating the quiz');
+      return this.errorHandler(error, 'Error while generating the quiz');
     }
   }
 
@@ -90,7 +90,7 @@ class AIService implements IAIService {
       });
       return response.data;
     } catch (error) {
-      return this.handleError(error, 'Error while generating the summary');
+      return this.errorHandler(error, 'Error while generating the summary');
     }
   }
 
@@ -99,7 +99,7 @@ class AIService implements IAIService {
       const response = await this.client.post(AI_PATHS.CHAT, { ...params });
       return response.data;
     } catch (error) {
-      return this.handleError(error, 'Error while chatting');
+      return this.errorHandler(error, 'Error while chatting');
     }
   }
 
@@ -109,7 +109,7 @@ class AIService implements IAIService {
       const response = await this.client.get(AI_PATHS.GET_CHAT_HISTORY(documentId), { params: { limit, offset } });
       return response.data;
     } catch (error) {
-      return this.handleError(error, 'Error while getting chat history');
+      return this.errorHandler(error, 'Error while getting chat history');
     }
   }
 
@@ -122,7 +122,7 @@ class AIService implements IAIService {
       });
       return response.data;
     } catch (error) {
-      return this.handleError(error, 'Error while explaining concept');
+      return this.errorHandler(error, 'Error while explaining concept');
     }
   }
 }

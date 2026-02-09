@@ -30,9 +30,8 @@ export default function DashboardPage() {
 
         setDashboardData(data.data);
       } catch (error) {
-        console.error(error);
 
-        toastService.error('Unable to load dashboard data.');
+        toastService.error(error?.message || 'Unable to load dashboard data.');
       } finally {
         setLoading(false);
       }
