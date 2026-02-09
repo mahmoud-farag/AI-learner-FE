@@ -11,7 +11,7 @@ export default function AIActionsTab() {
   const [conceptAnswer, setConceptAnswer] = useState('');
   const [summary, setSummary] = useState('');
   const [activeModal, setActiveModal] = useState(null); // 'summary' | 'explanation' | null
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({ service: null, value: null });
   const { id: documentId } = useParams();
 
   //* Handlers
@@ -22,7 +22,7 @@ export default function AIActionsTab() {
         return;
       }
 
-      setIsLoading(true);
+      setIsLoading(() => ({ service: 'summary', value: true }));
       const response = await aiService.generateSummary({ documentId });
 
       if (response?.success && response?.data?.summary) {
@@ -34,7 +34,7 @@ export default function AIActionsTab() {
     } catch (error) {
       toastService.error(error?.message ?? 'An error occurred while generating the summary.');
     } finally {
-      setIsLoading(false);
+      setIsLoading((prev) => ({ ...prev, value: false }));
     }
   }
 
@@ -46,7 +46,7 @@ export default function AIActionsTab() {
         return;
       }
 
-      setIsLoading(true);
+      setIsLoading(() => ({ service: 'concept', value: true }));
       const response = await aiService.explainConcept({ concept, documentId });
 
       if (response?.success && response?.data?.answer) {
@@ -56,11 +56,9 @@ export default function AIActionsTab() {
         toastService.error('Received an empty response from the server.');
       }
     } catch (error) {
-      toastService.error(
-        error?.message ?? 'An error occurred while explaining the concept.'
-      );
+      toastService.error(error?.message ?? 'An error occurred while explaining the concept.');
     } finally {
-      setIsLoading(false);
+      setIsLoading((prev) => ({ ...prev, value: false }));
     }
   }
 
@@ -99,10 +97,10 @@ export default function AIActionsTab() {
 
             <button
               onClick={handleGenerateSummary}
-              disabled={summary && isLoading}
+              disabled={isLoading.value && isLoading.service === 'summary'}
               className="min-[800px]:px-7 bg-linear-to-br py-1 from-violet-400 to-violet-700 rounded-2xl shadow-md text-white cursor-pointer hover:shadow-xl active:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading && activeModal === null && summary ? 'Summarizing...' : 'Summarize'}
+              {isLoading.service === 'summary' && isLoading.value && activeModal === null && !concept ? 'Summarizing...' : 'Summarize'}
             </button>
           </div>
           <p className="text-base text-slate-400">Get a concise summary of the entire document</p>
@@ -128,14 +126,14 @@ export default function AIActionsTab() {
               placeholder="Anything related to the document"
               value={concept}
               onChange={(e) => setConcept(e.target.value)}
-              disabled={concept && isLoading}
+              disabled={concept && isLoading.value && isLoading.service === 'concept'}
             />
             <button
               onClick={handleExplainConcept}
-              disabled={!concept?.trim() || isLoading}
+              disabled={!concept?.trim() || (isLoading.value && isLoading.service === 'concept')}
               className="disabled:cursor-not-allowed disabled:opacity-50 bg-linear-to-br from-violet-400 to-violet-700 px-6 py-2 text-white bg-violet-600 rounded-2xl shadow-md hover:shadow-xl cursor-pointer active:scale-105 transition-all duration-200 min-w-[100px]"
             >
-              {isLoading && activeModal === null && concept ? 'Explain...' : 'Explain'}
+              {isLoading.service === 'concept' && isLoading.value && activeModal === null && concept ? 'Explain...' : 'Explain'}
             </button>
           </div>
         </section>
