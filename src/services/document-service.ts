@@ -51,8 +51,8 @@ interface IDocumentService {
 class DocumentService implements IDocumentService {
 
     private errorHandler = (error: unknown, defaultMessage: string = 'Unknown Error occurred'): never => {
-        if (isAxiosError(error)) {
-            throw error.response?.data ?? { message: defaultMessage };
+        if (isAxiosError(error) && error.response?.data) {
+            throw error.response.data;
         }
         throw new Error(defaultMessage);
     }

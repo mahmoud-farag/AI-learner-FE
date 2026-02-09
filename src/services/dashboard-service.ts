@@ -13,9 +13,9 @@ interface IDashboardService {
 
 class DashboardService implements IDashboardService {
 
-  private errorHandler = (error: unknown, defaultMessage = 'Unknown Error occurred'): never => {
-    if (isAxiosError(error)) {
-      throw error.response?.data ?? { message: defaultMessage };
+  private errorHandler = (error: unknown, defaultMessage: string = 'Unknown Error occurred'): never => {
+    if (isAxiosError(error) && error.response?.data) {
+      throw error.response.data;
     }
     throw new Error(defaultMessage);
   }
