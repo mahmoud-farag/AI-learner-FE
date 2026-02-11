@@ -98,7 +98,7 @@ export default function DocumentCard({
       </div>
 
       {/* Footer */}
-      <div className="border-t border-slate-300 p-3 flex gap-2 text-slate-600/70 font-semibold">
+      <div className="border-t border-slate-300 pt-3 flex gap-2 text-slate-600/70 font-semibold">
         <Clock
           className="inline-flex justify-center items-center"
           strokeWidth={2}

@@ -247,7 +247,7 @@ export default function DocumentListPage() {
 
         {/* cards list */}
         {isThereDocsToRender ? (
-          <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+          <div className="grid gap-6 grid-cols-[repeat(auto-fill,minmax(330px,1fr))]">
             {(documents ?? []).map((document) => (
               <DocumentCard key={document._id} document={document} setSelectedDocument={setSelectedDocument} setIsDeleteModalOpen={setIsDeleteModalOpen} />
             ))}
